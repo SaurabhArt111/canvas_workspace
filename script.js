@@ -7,13 +7,23 @@ window.onbeforeunload = function () {
 
 let clipboard = '';
 
-// Pop-Up Message
+
+// Pop-Up Message for Copy
 function showToast() {
   const toast = document.getElementById("toast");
   toast.classList.add("show");
   setTimeout(() => {
     toast.classList.remove("show");
-  }, 3000); // Toast disappears after 3 seconds
+  }, 3000); // Toast timing 3 seconds
+}
+
+// Pop-Up Message for Update
+function showToast1() {
+  const toast1 = document.getElementById("toast1");
+  toast1.classList.add("show");
+  setTimeout(() => {
+    toast1.classList.remove("show");
+  }, 3000); // Toast1 timing 3 seconds
 }
 
 // Add Delete Option
@@ -45,3 +55,4 @@ function fullscreenPage() {
     document.exitFullscreen();
   }
 }
+

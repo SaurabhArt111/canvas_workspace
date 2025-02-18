@@ -1,5 +1,5 @@
 
-// Resizer & Resizer-handles // Select & Unselect // Drag-elements // Rotate Element
+// Resizer & Resizer-handles // Select & Unselect // Dragable // Rotate Element
 
 // Select Element
 const copyBtn = document.querySelector('#copy-btn')
@@ -45,9 +45,9 @@ workspace.addEventListener('click', (e) => {
         selectionBox = document.createElement('div');
         selectionBox.className = 'selection-box';
         selectionBox.style.position = 'absolute';
-        selectionBox.style.border = '2px solid navy';
-        selectionBox.style.boxShadow = '0 0 10px rgba(0, 0, 255, 0.8)';
+        selectionBox.style.border = '2px solid #8000af';
         selectionBox.style.pointerEvents = 'none'; // Ensure it doesn't interfere with user interaction
+        selectionBox.style.zIndex = '100000';
         workspace.appendChild(selectionBox);
         // Adjust selection box to wrap the selected element
         updateSelectionBoxPosition();
@@ -252,3 +252,189 @@ function makeElementDraggable(element) {
 document.querySelectorAll('.element').forEach((el) => {
     makeElementDraggable(el);
 });
+
+
+// Update Selection Box Position
+function updateSelectionBoxPosition() {
+    if (!selectedElement || !selectionBox) return;
+    const rect = selectedElement.getBoundingClientRect();
+    const workspaceRect = workspace.getBoundingClientRect();
+    selectionBox.style.left = `${rect.left - workspaceRect.left}px`;
+    selectionBox.style.top = `${rect.top - workspaceRect.top}px`;
+    selectionBox.style.width = `${rect.width}px`;
+    selectionBox.style.height = `${rect.height}px`;
+
+    if (!selectionBox.querySelector('.rotation-handle')) {
+        addRotationHandle(selectionBox);
+    }
+}
+
+// Get Current Rotation Angle
+function getCurrentRotation(element) {
+    const style = window.getComputedStyle(element);
+    const matrix = style.transform;
+    if (matrix === 'none') return 0;
+    const values = matrix.split('(')[1].split(')')[0].split(',');
+    const a = values[0];
+    const b = values[1];
+    const angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+    return angle < 0 ? angle + 360 : angle;
+}
+
+ /* Selct or unselect & Selector-Box */
+
+// Select or Unselect
+workspace.addEventListener('click', (e) => {
+    // Check if an element was clicked
+    if (e.target.classList.contains('element')) {
+        if (selectionBox) {
+            workspace.removeChild(selectionBox); // Remove previous selection box
+        }
+        const element = e.target;
+        selectedElement = element;
+        // Create selection box
+        selectionBox = document.createElement('div');
+        selectionBox.className = 'selection-box';
+        selectionBox.style.position = 'absolute';
+        selectionBox.style.border = '2px solid #8000af';
+        selectionBox.style.pointerEvents = 'none'; // Ensure it doesn't interfere with user interaction
+        selectionBox.style.zIndex = '100000';
+        workspace.appendChild(selectionBox);
+        // Adjust selection box to wrap the selected element
+        updateSelectionBoxPosition();
+
+        // Add resize handles
+        addResizeHandles(selectionBox);
+    } else {
+        // Remove selection box when clicking outside elements
+        if (selectionBox) {
+            workspace.removeChild(selectionBox);
+            selectionBox = null;
+            selectedElement = null;
+        }
+    }
+});
+// dragable selector
+
+// Update Selection Box Position
+function updateSelectionBoxPosition() {
+    if (!selectedElement || !selectionBox) return;
+    const rect = selectedElement.getBoundingClientRect();
+    const workspaceRect = workspace.getBoundingClientRect();
+    selectionBox.style.left = `${rect.left - workspaceRect.left}px`;
+    selectionBox.style.top = `${rect.top - workspaceRect.top}px`;
+    selectionBox.style.width = `${rect.width}px`;
+    selectionBox.style.height = `${rect.height}px`;
+}
+
+// Selection Box
+let selectionRect = null;
+let startX = 0, startY = 0;
+let selectedElements = [];
+let isDragging = false;
+
+workspace.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
+
+    startX = e.clientX;
+    startY = e.clientY;
+
+    selectionRect = document.createElement('div');
+    selectionRect.className = 'selection-rect';
+    selectionRect.style.position = 'absolute';
+    selectionRect.style.border = '2px dashed rgb(159, 16, 211)';
+    selectionRect.style.background = 'rgba(137, 16, 181, 0.36)';
+    selectionRect.style.pointerEvents = 'none';
+    workspace.appendChild(selectionRect);
+
+    function onMouseMove(event) {
+        let x = Math.min(event.clientX, startX);
+        let y = Math.min(event.clientY, startY);
+        let width = Math.abs(event.clientX - startX);
+        let height = Math.abs(event.clientY - startY);
+
+        selectionRect.style.left = `${x - workspace.offsetLeft}px`;
+        selectionRect.style.top = `${y - workspace.offsetTop}px`;
+        selectionRect.style.width = `${width}px`;
+        selectionRect.style.height = `${height}px`;
+    }
+
+    function onMouseUp() {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+
+        selectElements();
+        workspace.removeChild(selectionRect);
+        selectionRect = null;
+
+        if (selectedElements.length > 0) {
+            enableGroupMovement();
+        }
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+});
+
+function selectElements() {
+    const rect = selectionRect.getBoundingClientRect();
+    selectedElements = [];
+
+    document.querySelectorAll('.element').forEach(el => {
+        const elRect = el.getBoundingClientRect();
+        if (
+            elRect.left >= rect.left &&
+            elRect.right <= rect.right &&
+            elRect.top >= rect.top &&
+            elRect.bottom <= rect.bottom
+        ) {
+            selectedElements.push(el);
+            el.classList.add('selected');
+        } else {
+            el.classList.remove('selected');
+        }
+    });
+}
+
+function enableGroupMovement() {
+    let initialX, initialY;
+    let elementOffsets = [];
+
+    function onDragStart(e) {
+        if (!selectedElements.includes(e.target)) return;
+
+        isDragging = true;
+        initialX = e.clientX;
+        initialY = e.clientY;
+
+        elementOffsets = selectedElements.map(el => ({
+            el,
+            startLeft: parseFloat(el.style.left || 0),
+            startTop: parseFloat(el.style.top || 0),
+        }));
+
+        document.addEventListener('mousemove', onDragMove);
+        document.addEventListener('mouseup', onDragEnd);
+    }
+
+    function onDragMove(e) {
+        if (!isDragging) return;
+
+        const dx = e.clientX - initialX;
+        const dy = e.clientY - initialY;
+
+        elementOffsets.forEach(({ el, startLeft, startTop }) => {
+            el.style.position = 'absolute';
+            el.style.left = `${startLeft + dx}px`;
+            el.style.top = `${startTop + dy}px`;
+        });
+    }
+
+    function onDragEnd() {
+        isDragging = false;
+        document.removeEventListener('mousemove', onDragMove);
+        document.removeEventListener('mouseup', onDragEnd);
+    }
+
+    workspace.addEventListener('mousedown', onDragStart);
+}

@@ -1,5 +1,5 @@
 
-// Context-Menu of elements // Context Menu for WorkSpace // Menu-Box
+// Context-Menu of elements // Context Menu for WorkSpace // Menu-Box // Dropdown's
 
 // Context-Menu for Elements of WorkSpace
 workspace.addEventListener('contextmenu', (e) => {
@@ -18,6 +18,7 @@ contextMenu.addEventListener('click', (e) => {
   if (!selectedElement) return;
   const action = e.target.dataset.action;
 
+  // Buttons
   switch (action) {
     case 'resize-width':
       const newWidth = prompt('Enter new width (px):', '100');
@@ -39,7 +40,7 @@ contextMenu.addEventListener('click', (e) => {
       break;
     case 'add-border-radius':
       const borderRadius = prompt('Enter border-radius (e.g., "10px")');
-      if (borderRadius) selectedElement.style.borderRadius = borderRadius;
+      if (borderRadius) selectedElement.style.borderRadius = `${borderRadius}px`;
       break;
     case 'add-shadow':
       const boxShadow = prompt('Enter box-shadow (e.g., "5px 5px 10px gray")');
@@ -127,34 +128,71 @@ contextMenu.addEventListener('click', (e) => {
   generateCode();
 });
 
-// Menu-Box
-function toggleMenu() {
-  const menu = document.getElementById('menuContent');
-  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-}
-// Close the menu if clicked outside
-document.addEventListener('click', function (event) {
-  const menu = document.getElementById('menuContent');
-  const button = document.querySelector('.menu-button');
+document.addEventListener('contextmenu', function (event) {
+  event.preventDefault();
 
-  if (!button.contains(event.target) && !menu.contains(event.target)) {
-    menu.style.display = 'none';
+  // Hide all context menus
+  document.querySelectorAll('.context-menu').forEach(menu => menu.classList.remove('visible'));
+
+  const element = event.target.closest('.element');
+  const insideSelection = selectedElements.includes(event.target);
+  let contextMenu = null;
+
+  if (insideSelection) {
+    contextMenu = document.getElementById('selector');
+  } else if (element) {
+    selectedElement = element;
+    contextMenu = document.getElementById('context-menu');
+  } else if (event.target.id === 'workspace') {
+    contextMenu = document.getElementById('workspace-context-menu');
+  }
+
+  if (contextMenu) {
+    positionContextMenu(contextMenu, event.pageX, event.pageY);
   }
 });
 
+// Function to position the context menu within the workspace bounds
+function positionContextMenu(menu, x, y) {
+  const workspace = document.getElementById('workspace');
+  const workspaceRect = workspace.getBoundingClientRect();
+  const menuRect = menu.getBoundingClientRect();
 
-// Context-Menu for WorkSpace
-document.getElementById('workspace').addEventListener('contextmenu', function (event) {
-  event.preventDefault();
-  const contextMenu = document.getElementById('workspace-context-menu');
-  contextMenu.style.left = `${event.pageX}px`;
-  contextMenu.style.top = `${event.pageY}px`;
-  contextMenu.classList.add('visible');
+  let posX = x;
+  let posY = y;
+
+  // Ensure the menu doesn't overflow on the right
+  if (posX + menuRect.width > workspaceRect.right) {
+    posX = workspaceRect.right - menuRect.width - 5; // Margin-right: 5px
+  }
+
+  // Ensure the menu doesn't overflow on the left
+  if (posX < workspaceRect.left) {
+    posX = workspaceRect.left + 5; // Margin-left: 5px
+  }
+
+  // Ensure the menu doesn't overflow at the bottom
+  if (posY + menuRect.height > workspaceRect.bottom) {
+    posY = workspaceRect.bottom - menuRect.height - 5; // Margin-bottom: 5px
+  }
+
+  // Ensure the menu doesn't overflow at the top
+  if (posY < workspaceRect.top) {
+    posY = workspaceRect.top + 5; // Margin-top: 5px
+  }
+
+  menu.style.left = `${posX}px`;
+  menu.style.top = `${posY}px`;
+  menu.classList.add('visible');
+}
+
+// Hide context menus when clicking anywhere 
+document.addEventListener('click', function (event) {
+  if (!event.target.closest('.context-menu')) {
+    document.querySelectorAll('.context-menu').forEach(menu => menu.classList.remove('visible'));
+  }
 });
-document.addEventListener('click', function () {
-  const contextMenu = document.getElementById('workspace-context-menu');
-  contextMenu.classList.remove('visible');
-});
+
 
 
 // Dropdown for Font-Format Menu
@@ -175,16 +213,13 @@ document.addEventListener('click', (event) => {
 // Dropdown for Input Type
 document.getElementById('toggle-button').addEventListener('click', function () {
   const inputFormatDiv = document.getElementById('input-format');
-  
-  // Toggle visibility of the input format menu
+
   if (inputFormatDiv.style.display === 'none' || inputFormatDiv.style.display === '') {
     inputFormatDiv.style.display = 'block';
   } else {
     inputFormatDiv.style.display = 'none';
   }
-
-  // Close the dropdown if clicking anywhere outside
-  document.addEventListener('click', function(event) {
+  document.addEventListener('click', function (event) {
     if (!inputFormatDiv.contains(event.target) && !document.getElementById('toggle-button').contains(event.target)) {
       inputFormatDiv.style.display = 'none';
     }
@@ -192,19 +227,65 @@ document.getElementById('toggle-button').addEventListener('click', function () {
 });
 
 
-// Dropdown for Webpage-BG
+// Dropdown for Body Background
 document.getElementById('webpage-bg').addEventListener('click', function () {
-    const inputFormatDiv = document.getElementById('webpage-bg-d');
-    
-    if (inputFormatDiv.style.display === 'none' || inputFormatDiv.style.display === '') {
-      inputFormatDiv.style.display = 'block';
-    } else {
+  const inputFormatDiv = document.getElementById('webpage-bg-d');
+
+  if (inputFormatDiv.style.display === 'none' || inputFormatDiv.style.display === '') {
+    inputFormatDiv.style.display = 'block';
+  } else {
+    inputFormatDiv.style.display = 'none';
+  }
+  document.addEventListener('click', function (event) {
+    if (!inputFormatDiv.contains(event.target) && !document.getElementById('webpage-bg').contains(event.target)) {
       inputFormatDiv.style.display = 'none';
     }
-      document.addEventListener('click', function(event) {
-      if (!inputFormatDiv.contains(event.target) && !document.getElementById('webpage-bg').contains(event.target)) {
-        inputFormatDiv.style.display = 'none';
-      }
-    });
   });
-  
+});
+
+
+// Dropdown for Shapes
+document.getElementById('shapes').addEventListener('click', function () {
+  const inputFormatDiv = document.getElementById('shapes-d');
+
+  if (inputFormatDiv.style.display === 'none' || inputFormatDiv.style.display === '') {
+    inputFormatDiv.style.display = 'block';
+  } else {
+    inputFormatDiv.style.display = 'none';
+  }
+  document.addEventListener('click', function (event) {
+    if (!inputFormatDiv.contains(event.target) && !document.getElementById('shapes').contains(event.target)) {
+      inputFormatDiv.style.display = 'none';
+    }
+  });
+});
+
+
+// Menu-Box Left ( ☰ )
+function toggleMenu() {
+  const menu = document.getElementById('menuContent');
+  menu.style.left = menu.style.left === '-210px' ? '0px' : '0px';
+}
+document.addEventListener('click', function (event) {
+  const menu = document.getElementById('menuContent');
+  const button = document.querySelector('.menu-button');
+
+  if (!button.contains(event.target) && !menu.contains(event.target)) {
+    menu.style.left = '-210px';
+  }
+});
+
+
+// Dropdown for Other-Menu (...)
+const otherSpan = document.getElementById('other');
+const otherMenu = document.getElementById('other-menu');
+
+other.addEventListener('click', () => {
+  otherMenu.style.display = otherMenu.style.display === 'none' ? 'block' : 'none';
+});
+// Hide menus when clicking anywhere out side
+document.addEventListener('click', (event) => {
+  if (!other.contains(event.target) && !otherMenu.contains(event.target)) {
+    otherMenu.style.display = 'none';
+  }
+});

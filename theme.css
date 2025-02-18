@@ -1,0 +1,75 @@
+body.light {
+    background-color: white;
+    transition: background-color 0.8s ease;
+}
+
+body.dark {
+    background-color: rgb(98, 98, 98);
+    transition: background-color 0.5s ease;
+}
+
+.theme-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.theme-button {
+    display: flex;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    background: #6b5fd3;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.theme-button.active {
+    background: #36299a;
+}
+
+.theme-button:hover {
+    opacity: 0.8;
+}
+/*light theme*/
+
+/*dark theme*/
+/* nav */
+body.dark nav {
+    transition: background-color 0.5s ease;
+    background-color: rgb(90, 90, 90);
+}
+body.dark nav img{
+    filter: drop-shadow(0 0 4px white);
+}
+/* workspace */
+body.dark #workspace {
+    transition: background-color 0.5s ease;
+    background: radial-gradient(#474747 8%, transparent 8%), rgb(49, 49, 49);
+    background-position: 0 0, 25px 25px;
+    background-size: 22px 22px;
+    border: 1px solid #ccc;
+}
+/**/
+body.dark .selected {
+    outline: 2px solid blue;
+  }
+/* menu */
+body.dark .menu-content {
+    background-color: rgb(58, 58, 58);
+}
+
+body.dark .menu-content span{
+    color: white;
+}
+
+body.dark .context-menu {
+    background-color: rgb(161, 161, 161);
+}
+
+body.dark #controls {
+    background-color: gray;
+}

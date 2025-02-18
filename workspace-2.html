@@ -9,202 +9,263 @@
   <link rel="icon" href="https://img.icons8.com/?size=100&id=li7hI39Dpc7P&format=png&color=000000">
   <!-- CSS -->
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="button-effect.css">
 </head>
 
 <body>
+  <!-- Navagition Bar -->
   <nav>
-    <!-- Menu-Box -->
+    <!-- Menu-Box Button -->
     <div class="menu-box">
       <button class="menu-button" onclick="toggleMenu()"><img
           src="https://img.icons8.com/?size=100&id=3095&format=png&color=000000" height="30px"></button>
-      <div class="menu-content" id="menuContent">
-        <span onclick="performAction('open')">Open</span>
-        <span onclick="performAction('save-as')">SaveAs</span>
-        <span onclick="performAction('export-file')">Export file</span>
-        <span onclick="performAction('formate')">Formate</span>
-        <div class="line"></div>
-        <span onclick="performAction('theme')">Theme</span>
-        <div class="line"></div>
-        <span onclick="performAction('copyPNG')">Change Background</span>
-      </div>
     </div>
-
+    <!-- Conrol Bar (Elements Box) -->
     <div id="controls">
-      <!-- Webpage Background -->
-      <button id="webpage-bg">Webpage BG</button>
-      <div id="webpage-bg-d" style="display: none;">
-        <ul style="list-style: none;">
-          <li>
-            <input type="color" id="webpage-color" title="Webpage Color">Background Color
-          </li>
-          <div class="line"></div>
-          <li>
-            <button id="webpage-image" title="Webpage Image"><img src="https://img.icons8.com/?size=100&id=42298&format=png&color=000000" width="20px">
-            Background Image
-            </button>
-          </li>
-        </ul>
-      </div>
-      <!-- Text -->
-      <button id="add-text" title="Add Text"><img
-          src="https://img.icons8.com/?size=100&id=bkvFLltNGV8a&format=png&color=000000" width="20px"></button>
-      <!-- Input & Button Tag -->
-      <button id="add-button-tag" title="Button"><img
-          src="https://img.icons8.com/?size=100&id=38831&format=png&color=000000" width="45px"></button>
+      <!-- Text & Input & span Tag-->
+      <span id="add-text" title="Add Text"><img
+          src="https://img.icons8.com/?size=100&id=bkvFLltNGV8a&format=png&color=000000" width="20px"></span>
 
-      <button id="add-button" title="Input Box"><img
-          src="https://img.icons8.com/?size=100&id=fEjxmiPUOILm&format=png&color=000000" width="20px"></button>
+      <span id="add-button-tag" title="Button"><img
+          src="https://img.icons8.com/?size=100&id=38831&format=png&color=000000" width="40px"></span>
 
-      <button id="toggle-button">Input Format</button>
-      <div id="input-format" style="display: none;">
-        <ul style="list-style: none;">
-          <li>Type:
-            <select id="input-type">
-              <option value="text">Text</option>
-              <option value="password">Password</option>
-              <option value="email">Email</option>
-              <option value="number">Number</option>
-              <option value="date">Date</option>
-              <option value="checkbox">Checkbox</option>
-              <option value="radio">Radio</option>
-              <option value="file">File</option>
-            </select>
-          </li>
-          <div class="line"></div>
-          <li>
-            <input id="your-input-element" type="text" placeholder="Placeholder Name" style="border-radius: 4px;">
-          </li>
-        </ul>
-      </div>
+      <span id="add-button" title="Input Box"><img
+          src="https://img.icons8.com/?size=100&id=fEjxmiPUOILm&format=png&color=000000" width="20px"></span>
 
       <!-- Image -->
-      <button id="add-image" title="Add Image"><img
-          src="https://img.icons8.com/?size=100&id=42298&format=png&color=000000" width="20px"></button>
+      <span id="add-image" title="Add Image"><img
+          src="https://img.icons8.com/?size=100&id=xrSn9N56jUGh&format=png&color=000000" width="20px"></span>
+
+      <!-- Video -->
+      <span id="add-video" title="Add Video"><img
+          src="https://img.icons8.com/?size=100&id=111348&format=png&color=000000" width="20px"></span>
+
+      <!-- Audio -->
+      <span id="add-audio" title="Add Audio"><img
+          src="https://img.icons8.com/?size=100&id=UGJlfvuK8Uf7&format=png&color=000000" width="20px"></span>
 
       <!-- Shape -->
-      <button id="add-line" title="Line"><img src="https://img.icons8.com/?size=100&id=98472&format=png&color=000000"
-          width="20px">
-      </button>
-      <button id="add-rectangle" title="Rectangle"><img
-          src="https://img.icons8.com/?size=100&id=xZ83Lf2CSaVj&format=png&color=000000" width="20px">
-      </button>
-      <button id="add-triangle" title="Triangle"><img
-          src="https://img.icons8.com/?size=100&id=98498&format=png&color=000000" width="20px">
-      </button>
-      <button id="add-circle" title="Circle"><img
-          src="https://img.icons8.com/?size=100&id=40190&format=png&color=000000" width="20px">
-      </button>
-
+      <span id="shapes" title="shapes"><img
+          src="https://img.icons8.com/?size=100&id=nqGM2GKvtICe&format=png&color=000000" width="20px"> Shape</span>
+      <!-- Line / Rectangle / Triangle / Circle-->
+      <div id="shapes-d">
+        <ul style="list-style: none;">
+          <li id="add-line" title="Line"><img src="https://img.icons8.com/?size=100&id=98472&format=png&color=000000"
+              width="30px">Line
+          </li>
+          <li id="add-rectangle" title="Rectangle"><img
+              src="https://img.icons8.com/?size=100&id=xZ83Lf2CSaVj&format=png&color=000000" width="30px">Rectangle
+          </li>
+          <li id="add-triangle" title="Triangle"><img
+              src="https://img.icons8.com/?size=100&id=98498&format=png&color=000000" width="30px">Triangle
+          </li>
+          <li id="add-circle" title="Circle"><img
+              src="https://img.icons8.com/?size=100&id=40190&format=png&color=000000" width="30px">Circle
+          </li>
+        </ul>
+      </div>
       <!-- Color -->
-      <button id="change-bg" title="Element Color"><img
-          src="https://img.icons8.com/?size=100&id=11494&format=png&color=000000" width="20px"></button>
+      <span id="change-bg" title="Element Color"><img
+          src="https://img.icons8.com/?size=100&id=11494&format=png&color=000000" width="20px"></span>
       <input type="color" id="colorPicker" title="Color Selector">
       <p id="colorValue"></p>
-
       <!-- Bring forward / backward -->
-      <button id="bring-forward" title="Bring-Forward"><img
-          src="https://img.icons8.com/?size=100&id=24959&format=png&color=000000" width="20px"></button></button>
-      <button id="bring-backward" title="Bring-Backward"><img
-          src="https://img.icons8.com/?size=100&id=72734&format=png&color=000000" width="20px"></button></button>
-
-      <!-- Font Format Dropdown -->
-      <button id="font-format" title="Font Format">Font Format</button>
-      <div id="font-format-menu"
-        style="display: none; border: 1px solid #ccc; padding: 10px; position: fixed; top: 50px; left: 50%; transform: translateX(-50%); background: white; z-index: 1000;">
-
-        <ul>
-          <li id="change-color" type="color" title="Font Color"><img
-              src="https://img.icons8.com/?size=100&id=12949&format=png&color=000000" width="20px">Font Color</li>
-          <li>
-            <label><img src="https://img.icons8.com/?size=100&id=40221&format=png&color=000000" width="20px">Font Size
-            </label>
-            <input type="number" id="font-size" value="16" style="width: 40px;"><span style="font-size: small;">px</span>
-          </li>
-          <li>
-            <label><img src="https://img.icons8.com/?size=100&id=56203&format=png&color=000000" width="20px">
-            Font Weight
-            </label>
-            <select id="font-weight">
-              <option value="100">100</option>
-              <option value="200">200</option>
-              <option value="Bold">Bold</option>
-              <option value="Bolder">Bolder</option>
-            </select>
-          </li>
-          <li>
-            <label><img src="https://img.icons8.com/?size=100&id=vNhOkmOV8ASd&format=png&color=000000" width="20px">Font
-              Family</label>
-            <select id="font-family">
-              <option value="Arial">Arial</option>
-              <option value="Verdana">Verdana</option>
-              <option value="Tahoma">Tahoma</option>
-              <option value="Courier New">Courier New</option>
-            </select>
-          </li>
-          <li>
-            <label>Opacity:</label>
-            <input type="range" id="opacity" min="0" max="1" step="0.1" value="1">
-          </li>
-      </div>
-      </ul>
+      <span id="bring-forward" title="Bring-Forward"><img
+          src="https://img.icons8.com/?size=100&id=24959&format=png&color=000000" width="25px"></span>
+      <span id="bring-backward" title="Bring-Backward"><img
+          src="https://img.icons8.com/?size=100&id=24961&format=png&color=000000" width="25px"></span>
+      <!-- Other Option-->
+      <span id="other" title="other"><img src="https://img.icons8.com/?size=100&id=12579&format=png&color=000000"
+          width="30px">
+        <div id="other-menu" class="other-menu">
+          <span id="font-format" title="Font Format">Font Format</span>
+          <hr>
+          <span id="toggle-button">Input Format</span>
+        </div>
+      </span>
     </div>
 
     <!-- Full Screen -->
-    <div id="fullscreen-1" title="FullScreen">
-      <span onclick="fullscreenPage()">
-        <img src="https://img.icons8.com/?size=30&id=69155&format=png&color=000000" alt="FullScreen Icon">
-      </span>
+    <div id="fullscreen-1" onclick="fullscreenPage()" title="FullScreen">
+      <img src="https://img.icons8.com/?size=30&id=69155&format=png&color=000000" alt="FullScreen Icon">
     </div>
   </nav>
 
   <!-- WorkSpace like Canva -->
   <div id="workspace"></div>
 
-  <!-- Workspace Context-Menu -->
+  <!-- Output Area -->
+  <footer class="copy-btn">
+    <!-- Output -->
+    <textarea id="output" placeholder="Generated HTML and CSS will appear here..."></textarea>
+    <!-- Copy Button -->
+    <button id="copy-btn" onclick="showToast()" class="btn effect01">
+      <img src="https://img.icons8.com/?size=100&id=59773&format=png&color=000000" width="30px">Copy
+    </button>
+    <!-- Update Code -->
+    <button id="update-code" class="btn effect01" onclick="showToast1()">
+      <img src="https://img.icons8.com/?size=100&id=LSy6l2VKR7Hz&format=png&color=000000" width="30px">Update
+    </button>
+    <div id="toast" class="toast">Successfully Copyed!</div>
+    <div id="toast1" class="toast">Code Updated!</div>
+  </footer>
+
+
+
+  <!-- Dropdown section -->
+
+
+  <!-- Font Format Dropdown -->
+  <div id="font-format-menu">
+
+    <ul>
+      <li id="change-color" type="color" title="Font Color"><img
+          src="https://img.icons8.com/?size=100&id=12949&format=png&color=000000" width="20px">Font Color</li>
+      <hr>
+      <li>
+        <label><img src="https://img.icons8.com/?size=100&id=40221&format=png&color=000000" width="20px">Font Size
+        </label>
+        <input type="number" id="font-size" value="16" style="width: 40px;"><span style="font-size: small;">px</span>
+      </li>
+      <hr>
+      <li>
+        <label><img src="https://img.icons8.com/?size=100&id=56203&format=png&color=000000" width="20px">
+          Font Weight
+        </label>
+        <select id="font-weight">
+          <option value="normal">normal</option>
+          <option value="Bold">Bold</option>
+        </select>
+      </li>
+      <hr>
+      <li>
+        <label><img src="https://img.icons8.com/?size=100&id=vNhOkmOV8ASd&format=png&color=000000" width="20px">Font
+          Family</label>
+        <select id="font-family">
+          <option value="Arial">Arial</option>
+          <option value="Verdana">Verdana</option>
+          <option value="Tahoma">Tahoma</option>
+          <option value="Courier New">Courier New</option>
+        </select>
+      </li>
+      <hr>
+      <li>
+        <label>Opacity:</label>
+        <input type="range" id="opacity" min="0" max="1" step="0.1" value="1">
+      </li>
+    </ul>
+  </div>
+
+  <!-- Input Format -->
+  <div id="input-format" style="display: none;">
+    <ul style="list-style: none;">
+      <li>Type:
+        <select id="input-type">
+          <option value="text">Text</option>
+          <option value="password">Password</option>
+          <option value="email">Email</option>
+          <option value="number">Number</option>
+          <option value="date">Date</option>
+          <option value="checkbox">Checkbox</option>
+          <option value="radio">Radio</option>
+          <option value="file">File</option>
+        </select>
+      </li>
+      <hr>
+      <li>
+        <input id="your-input-element" type="text" placeholder="Placeholder Name" style="border-radius: 4px;">
+      </li>
+    </ul>
+  </div>
+
+  <!-- Workspace Dropdown -->
   <ul id="workspace-context-menu" class="context-menu">
     <li class="context-menu-item" data-action="paste">Paste (Ctrl+V)</li>
+    <hr>
     <li class="context-menu-item" data-action="cursor">Change Cursor</li>
-    <div class="line"></div>
+    <hr>
+    <li class="context-menu-item" data-action="select-all">Select All (Ctrl+A)</li>
+    <hr>
     <li class="context-menu-item" data-action="zoom-in">Zoom In</li>
     <li class="context-menu-item" data-action="zoom-out">Zoom Out</li>
     <li class="context-menu-item" data-action="reset">Reset Workspace Zoom</li>
-    <div class="line"></div>
+    <hr>
     <li class="context-menu-item" data-action="help">Help</li>
   </ul>
 
-  <!-- Copy Button -->
-  <div class="copy-btn">
-    <button id="copy-btn" onclick="showToast()" class="btn effect01">
-      <img src="https://img.icons8.com/?size=100&id=59773&format=png&color=000000" width="30px">
-      Copy</button>
-    <div id="toast" class="toast">Successfully Copyed!</div>
-    <!-- Output -->
-    <pre id="output">Generated HTML and CSS will appear here...</pre>
-  </div>
-
-  <!-- Context-Menu for Elements -->
+  <!-- Dropdown for Elements -->
   <ul id="context-menu" class="context-menu">
     <li class="context-menu-item" data-action="lock-unlock">Lock/Unlock</li>
-    <div class="line"></div>
+    <hr>
     <li class="context-menu-item" data-action="resize-width">Resize Width</li>
     <li class="context-menu-item" data-action="resize-height">Resize Height</li>
     <li class="context-menu-item" data-action="resize-both">Resize Both</li>
-    <div class="line"></div>
-    <li class="context-menu-item" data-action="input-type">Input: type</li>
+    <hr>
     <li class="context-menu-item" data-action="add-border">Add Border</li>
     <li class="context-menu-item" data-action="add-border-radius">Add Border Radius</li>
     <li class="context-menu-item" data-action="add-shadow">Add Shadow</li>
     <li class="context-menu-item" data-action="add-hyperlink">Add Hyperlink</li>
     <li class="context-menu-item" data-action="add-hover">Add Hover</li>
-    <div class="line"></div>
+    <hr>
     <li class="context-menu-item" data-action="cut">Cut (Ctrl+X)</li>
     <li class="context-menu-item" data-action="copy">Copy (Ctrl+C)</li>
     <li class="context-menu-item" data-action="paste">Paste (Ctrl+V)</li>
     <li class="context-menu-item" data-action="duplicate">Duplicate (Ctrl+D)</li>
-    <div class="line"></div>
+    <hr>
     <li class="context-menu-item" data-action="flip-horizontal">Flip horizontal (Shift+H)</li>
     <li class="context-menu-item" data-action="flip-vertical">Flip vertical (Shift+V)</li>
-    <div class="line"></div>
+    <hr>
+    <li class="context-menu-item" data-action="delete" style="color: red;">Delete</li>
+  </ul>
+
+  <!-- Menu Dropdown Left ( ☰ ) -->
+  <div class="menu-content" id="menuContent">
+    <nav class="nav-m" style="border-bottom: 1px solid black; justify-content: space-around;">
+      <img src="https://img.icons8.com/?size=100&id=li7hI39Dpc7P&format=png&color=000000" width="50px" height="50px"
+        style="padding-top: 5px;">
+    </nav>
+    <span onclick="performAction('open')">Open</span>
+    <span onclick="performAction('save-as')">SaveAs</span>
+    <span onclick="performAction('export-file')">Export file</span>
+    <hr>
+    <span id="webpage-bg">Background Color</span>
+    <hr>
+    <span class="theme-container">
+      <button id="lightBtn" class="theme-button">☀ Light</button>
+      <button id="darkBtn" class="theme-button">🌙 Dark</button>
+      <button id="systemBtn" class="theme-button">🖥 System</button>
+    </span>
+    <hr>
+  </div>
+
+  <!-- Background Color sub-dropdown -->
+  <div id="webpage-bg-d" style="display: none;">
+    <ul style="list-style: none;">
+      <li>
+        <input type="color" value="#ffffff" id="webpage-color" title="Webpage Color"> Background Color
+      </li>
+      <li>
+        <input type="color" value="#ffffff" id="webpage-color1" title="Webpage Color"> Background Color
+      </li>
+    </ul>
+  </div>
+
+  <!-- Selector-box Dropdown Menu -->
+  <ul class="context-menu" id="selector">
+    <li class="context-menu-item" data-action="lock-unlock">Lock/Unlock</li>
+    <hr>
+    <li class="context-menu-item" data-action="group">Group</li>
+    <li class="context-menu-item" data-action="ungroup">Ungroup</li>
+    <hr>
+    <li class="context-menu-item" data-action="cut">Cut (Ctrl+X)</li>
+    <li class="context-menu-item" data-action="copy">Copy (Ctrl+C)</li>
+    <li class="context-menu-item" data-action="paste">Paste (Ctrl+V)</li>
+    <li class="context-menu-item" data-action="duplicate">Duplicate (Ctrl+D)</li>
+    <hr>
+    <li class="context-menu-item" data-action="flip-horizontal">Flip horizontal (Shift+H)</li>
+    <li class="context-menu-item" data-action="flip-vertical">Flip vertical (Shift+V)</li>
+    <hr>
     <li class="context-menu-item" data-action="delete" style="color: red;">Delete</li>
   </ul>
 
@@ -213,8 +274,43 @@
   <script src="resizer.js"></script>
   <script src="code-generator.js"></script>
   <script src="context-menu.js"></script>
-
   <script>
+    // Theme (light / dark)
+
+    const lightBtn = document.getElementById("lightBtn");
+    const darkBtn = document.getElementById("darkBtn");
+    const systemBtn = document.getElementById("systemBtn");
+
+    function setTheme(theme) {
+      document.body.classList.remove("light", "dark");
+
+      if (theme === "light") {
+        document.body.classList.add("light");
+      } else if (theme === "dark") {
+        document.body.classList.add("dark");
+      } else if (theme === "system") {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.body.classList.add(prefersDark ? "dark" : "light");
+      }
+
+      localStorage.setItem("theme", theme);
+      updateActiveButton(theme);
+    }
+
+    function updateActiveButton(theme) {
+      document.querySelectorAll(".theme-button").forEach(btn => btn.classList.remove("active"));
+      if (theme === "light") lightBtn.classList.add("active");
+      else if (theme === "dark") darkBtn.classList.add("active");
+      else systemBtn.classList.add("active");
+    }
+
+    lightBtn.addEventListener("click", () => setTheme("light"));
+    darkBtn.addEventListener("click", () => setTheme("dark"));
+    systemBtn.addEventListener("click", () => setTheme("system"));
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem("theme") || "system";
+    setTheme(savedTheme);
   </script>
 </body>
 

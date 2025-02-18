@@ -1,5 +1,5 @@
 
-// Code Generatoes in WorkSpace // Elements & Content-Bar
+// Code Generated in WorkSpace // Elements & Content-Bar
 
 // Generate Code in HTML & CSS 
 function generateCode() {
@@ -8,14 +8,13 @@ function generateCode() {
     let css = '';
 
     const bodyBackground = document.getElementById('webpage-color')?.value || '';
-    const bodyImage = document.getElementById('webpage-image')?.value || '';
+    const bodyBackground1 = document.getElementById('webpage-color1')?.value || '';
 
     if (bodyBackground || bodyImage) {
         css += `body {
-            background-color: ${bodyBackground || 'transparent'};
-            background-image: ${bodyImage || `url('${bodyImage}')`};
-            background-position: center;
-            background-repeat: no-repeat;
+            background: linear-gradient(to bottom, ${bodyBackground}, ${bodyBackground1});
+            width: calc(100% - 100px);
+            height: auto;
         }
         `;
     }
@@ -29,10 +28,11 @@ function generateCode() {
             height,
             transform,
             border,
-            borderLeft,
-            borderRight,
             borderBottom,
             borderRadius,
+            backgroundSize,
+            backgroundRepeat,
+            backgroundPosition,
             boxShadow,
             backgroundColor,
             opacity,
@@ -41,6 +41,8 @@ function generateCode() {
             fontWeight,
             fontFamily,
             cursor,
+            clipPath,
+            transition,
         } = el.style;
 
         const tag = el.dataset.tag || 'div';
@@ -52,7 +54,7 @@ function generateCode() {
             html += `${hrefStart}<${tag} class="text-${index}">${el.innerText}</${tag}>${hrefEnd}\n`;
             css += `.text-${index} {
                 position: absolute;
-                color: ${color || '#000'};
+                color: ${color || 'red'};
                 left: ${left || '0px'};
                 top: ${top || '0px'};
                 width: ${width || 'auto'};
@@ -63,6 +65,7 @@ function generateCode() {
                 font-family: ${fontFamily || 'Arial, sans-serif'};
                 text-decoration: ${textDecoration || 'none'};
                 transform: ${transform || 'rotate(0deg)'};
+                transition: ${transition || 'color 0.3s ease'};
             }\n`;
             if (hoverEffect) {
                 css += `.text-${index}:hover { ${hoverEffect} }\n`;
@@ -80,16 +83,46 @@ function generateCode() {
                 border: ${border || 'none'};
                 border-radius: ${borderRadius || '0px'};
                 box-shadow: ${boxShadow || 'none'};
+                background-size: ${backgroundSize || 'contain'};
+                background-repeat: ${backgroundRepeat || 'no-repeat'};
+                background-position: ${backgroundPosition || 'center'};
                 opacity: ${opacity || 1};
                 transform: ${transform || 'rotate(0deg)'};
             }\n`;
             if (hoverEffect) {
                 css += `.image-${index}:hover { ${hoverEffect} }\n`;
             }
-        } else if (el.dataset.type === 'input') {
+        } 
+        else if (el.dataset.type === 'video') {
+            html += `<video class="video-${index}" src="${el.dataset.src}" controls></video>\n`;
+            css += `.video-${index} {
+                position: absolute;
+                left: ${left || '0px'};
+                top: ${top || '0px'};
+                width: ${width || '200px'};
+                height: ${height || '150px'};
+                border: ${border || 'none'};
+                border-radius: ${borderRadius || '0px'};
+                box-shadow: ${boxShadow || 'none'};
+                opacity: ${opacity || 1};
+                transform: ${transform || 'rotate(0deg)'};
+            }\n`;
+        }
+        else if (el.dataset.type === 'audio') {
+            html += `<audio class="audio-${index}" src="${el.dataset.src}" controls autoplay loop></audio>\n`;
+            css += `.audio-${index} {
+                position: absolute;
+                left: ${left || '0px'};
+                top: ${top || '0px'};
+                width: ${width || '200px'};
+                height: ${height || '50px'};
+                opacity: ${opacity || 1};
+            }\n`;
+        }
+         else if (el.dataset.type === 'input') {
             const inputType = el.dataset.inputType || 'text';
             const placeholder = el.dataset.placeholder || 'Enter text';
-            html += `<input class="input-${index}" type="${inputType}" placeholder="${placeholder}">\n`;
+            html += `<input class="input-${index}" type="${inputType}" placeholder="${placeholder}" required>\n`;
             css += `.input-${index} {
                 position: absolute;
                 top: ${top || '0px'};
@@ -102,11 +135,11 @@ function generateCode() {
                 font-weight: ${fontWeight || 'none'};
                 font-family: ${fontFamily || 'Arial, sans-serif'};
                 border-bottom: ${borderBottom || '2px solid black'};
-                border-radius: ${borderRadius || 'none'};
-                box-shadow: ${boxShadow || 'none'};
-                background-color: ${backgroundColor || '#fff'};
+                border-radius: ${borderRadius || '3px'};
+                background-color: ${backgroundColor || 'rgba(0,0,0,0.3)'};
                 opacity: ${opacity || 1};
                 transform: ${transform || 'rotate(0deg)'};
+                transition: ${transition || 'background-color 0.3s ease'};
             }\n`;
             if (hoverEffect) {
                 css += `.input-${index}:hover { ${hoverEffect} }\n`;
@@ -128,9 +161,10 @@ function generateCode() {
                 box-shadow: ${boxShadow || 'none'};
                 background-color: ${backgroundColor || 'white'};
                 color: ${color || 'black'};
-                cursor:${cursor || 'pointer'};
+                cursor: ${cursor || 'pointer'};
                 opacity: ${opacity || 1};
                 transform: ${transform || 'rotate(0deg)'};
+                transition: ${transition || 'background-color 0.3s ease'};
             }\n`;
             if (hoverEffect) {
                 css += `.button-${index}:hover { ${hoverEffect} }\n`;
@@ -141,13 +175,11 @@ function generateCode() {
                 position: absolute;
                 left: ${left || '0px'};
                 top: ${top || '0px'};
-                width: ${width || '50px'};
-                height: ${height || '50px'};
+                width: ${width || '150px'};
+                height: ${height || '150px'};
                 border: ${border || 'none'};
-                border-left: ${borderLeft || 'none'};
-                border-right: ${borderRight || 'none'};
-                border-bottom: ${borderBottom || 'none'};
-                border-radius: ${el.dataset.type === 'circle' ? '50%' : borderRadius || '0px'};
+                clip-path: ${el.dataset.type === 'triangle' ? 'polygon(50% 0%, 0% 100%, 100% 100%)' : 'none'}; 
+                border-radius: ${el.dataset.type === 'circle' ? '50%' : '0px'};
                 box-shadow: ${boxShadow || 'none'};
                 background-color: ${backgroundColor || 'transparent'};
                 opacity: ${opacity || 1};
@@ -160,153 +192,27 @@ function generateCode() {
     });
 
     // Output generated HTML and CSS
-    const output = document.getElementById('output'); // Adjust ID as necessary
+    const output = document.getElementById('output'); 
     if (output) {
-        output.textContent = `<style>\n${css}</style>\n${html}`;
+        output.value = `<style>\n${css}</style>\n${html}`;
     } else {
         console.error('Output element not found!');
     }
 }
 
 
+// Elements and Controls-Bar //
 
-// Genrate Code in react language
-/*
-function generateCode() {
-const elements = document.querySelectorAll('.element');
-let reactComponents = '';
-
-elements.forEach((el, index) => {
-    const { color, left, top, width, height, border, borderLeft, borderRight, borderBottom, borderRadius, boxShadow, backgroundColor, opacity, textDecoration } = el.style;
-    const tag = el.dataset.tag || 'div';
-
-    if (el.dataset.type === 'text') {
-        const hrefStart = el.dataset.href ? `<a href=\"${el.dataset.href}\" target=\"_blank\">` : '';
-        const hrefEnd = el.dataset.href ? `</a>` : '';
-        const fontSize = el.style.fontSize;
-        const fontFamily = el.style.fontFamily;
-
-        reactComponents += `
-        ${hrefStart}
-        <${tag}
-            className="element-${index}"
-            style={{
-                position: 'absolute',
-                color: '${color}',
-                left: '${left}',
-                top: '${top}',
-                width: '${width}',
-                height: '${height}',
-                opacity: '${opacity}',
-                fontSize: '${fontSize}',
-                fontFamily: '${fontFamily}',
-                textDecoration: '${textDecoration}',
-            }}
-        >
-            ${el.innerText}
-        </${tag}>
-        ${hrefEnd}`;
-    } else if (el.dataset.type === 'image') {
-        reactComponents += `
-        <img
-            className="element-${index}"
-            src="${el.dataset.src}"
-            alt="Image"
-            style={{
-                position: 'absolute',
-                left: '${left}',
-                top: '${top}',
-                width: '${width}',
-                height: '${height}',
-                border: '${border}',
-                borderRadius: '${borderRadius}',
-                boxShadow: '${boxShadow}',
-                opacity: '${opacity}',
-            }}
-        />`;
-    } else if (el.dataset.type === 'input') {
-        const placeholder = el.dataset.placeholder || 'Enter text';
-        reactComponents += `
-        <input
-            className="element-${index}"
-            type="text"
-            placeholder="${placeholder}"
-            style={{
-                position: 'absolute',
-                left: '${left}',
-                top: '${top}',
-                width: '${width}',
-                height: '${height}',
-                border: '${border || '1px solid #ccc'}',
-                borderRadius: '${borderRadius || '4px'}',
-                boxShadow: '${boxShadow || 'none'}',
-                backgroundColor: '${backgroundColor || '#fff'}',
-                color: '${color || '#000'}',
-                opacity: '${opacity || 1}',
-            }}
-        />`;
-    } else if (el.dataset.type === 'rectangle') {
-        reactComponents += `
-        <div
-            className="element-${index}"
-            style={{
-                position: 'absolute',
-                left: '${left}',
-                top: '${top}',
-                width: '${width}',
-                height: '${height}',
-                backgroundColor: '${backgroundColor || 'gray'}',
-                border: '${border || 'none'}',
-            }}
-        />`;
-    } else if (el.dataset.type === 'circle') {
-        reactComponents += `
-        <div
-            className="element-${index}"
-            style={{
-                position: 'absolute',
-                left: '${left}',
-                top: '${top}',
-                width: '${width}',
-                height: '${height}',
-                backgroundColor: '${backgroundColor || '#e74c3c'}',
-                border: '${border || 'none'}',
-                borderRadius: '50%',
-            }}
-        />`;
-    } else if (el.dataset.type === 'triangle') {
-        reactComponents += `
-        <div
-            className="element-${index}"
-            style={{
-                position: 'absolute',
-                left: '${left}',
-                top: '${top}',
-                width: '0',
-                height: '0',
-                borderLeft: '${borderLeft || '50px solid transparent'}',
-                borderRight: '${borderRight || '50px solid transparent'}',
-                borderBottom: '${borderBottom || '100px solid green'}',
-            }}
-        />`;
+// Workspace BG Color set by user
+document.getElementById('webpage-color').addEventListener('input', (e) => {
+    if (selectedElement) {
+        selectedElement.style.backgroundColor = e.bodyBackground.value;
+        selectedElement.style.backgroundColor1 = e.backgroundColor1.value;
+        generateCode();
     }
 });
 
-const outputCode = `import React from 'react';
 
-const GeneratedComponents = () => (
-<div className="workspace">
-    ${reactComponents}
-</div>
-);
-
-export default GeneratedComponents;`;
-
-output.textContent = outputCode;
-}
-*/
-
-// Elements and Controls-Bar
 // Add Text Element
 document.getElementById('add-text').addEventListener('click', () => {
     const textElement = document.createElement('div');
@@ -316,8 +222,10 @@ document.getElementById('add-text').addEventListener('click', () => {
     textElement.innerText = 'Editable Text';
     textElement.style.left = '50px';
     textElement.style.top = '50px';
-    textElement.style.width = '150px';
-    textElement.style.height = '50px';
+    textElement.style.minWidth = '100px';  
+    textElement.style.width = '100px';
+    textElement.style.height = '30px';
+    textElement.style.color = 'rgb(134, 0, 164)';
     textElement.style.textDecoration = 'none';
     textElement.style.transform = 'rotatae(0deg)';
 
@@ -340,6 +248,8 @@ document.getElementById('add-button').addEventListener('click', () => {
     inputElement.style.top = '50px';
     inputElement.style.width = '150px';
     inputElement.style.height = '30px';
+    inputElement.style.color = 'rgb(134, 0, 164)';
+    inputElement.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
     inputElement.style.transform = 'rotatae(0deg)';
 
     workspace.appendChild(inputElement);
@@ -347,7 +257,9 @@ document.getElementById('add-button').addEventListener('click', () => {
     makeResizable(inputElement);
     generateCode();
 });
+
 // Input Type="" Selector & PlaceHolder
+
 
 // Add Button Tag
 document.getElementById('add-button-tag').addEventListener('click', () => {
@@ -360,7 +272,9 @@ document.getElementById('add-button-tag').addEventListener('click', () => {
     buttonElement.style.top = '100px';
     buttonElement.style.width = '150px';
     buttonElement.style.height = '50px';
+    buttonElement.style.color = 'rgb(0, 0, 0)';
     buttonElement.style.textDecoration = 'none';
+    buttonElement.style.backgroundColor = '#1dad00';
     buttonElement.style.transform = 'rotatae(0deg)';
 
     workspace.appendChild(buttonElement);
@@ -380,12 +294,13 @@ document.getElementById('add-image').addEventListener('click', () => {
     imageElement.dataset.src = imageUrl;
     imageElement.style.left = '80px';
     imageElement.style.top = '80px';
-    imageElement.style.width = '110px';
-    imageElement.style.height = '110px';
+    imageElement.style.width = '150px';
+    imageElement.style.height = '150px';
     imageElement.style.backgroundImage = `url(${imageUrl})`;
-    imageElement.style.backgroundSize = 'cover';
+    imageElement.style.backgroundSize = 'contain';
+    imageElement.style.backgroundRepeat = 'no-repeat';
     imageElement.style.backgroundPosition = 'center';
-    imageElement.style.transform = 'rotatae(0deg)';
+    imageElement.style.transform = 'rotate(0deg)';
 
     workspace.appendChild(imageElement);
     makeDraggable(imageElement);
@@ -393,17 +308,67 @@ document.getElementById('add-image').addEventListener('click', () => {
     generateCode();
 });
 
+// Add Video Element
+document.getElementById('add-video').addEventListener('click', () => {
+    const videoUrl = prompt('Enter Video URL (MP4, WebM, etc.):');
+    if (!videoUrl) return;
+
+    const videoElement = document.createElement('div');
+    videoElement.className = 'element';
+    videoElement.dataset.type = 'video';
+    videoElement.dataset.src = videoUrl;
+    videoElement.style.left = '80px';
+    videoElement.style.top = '80px';
+    videoElement.style.width = '200px';
+    videoElement.style.height = '150px';
+    const videoTag = document.createElement('video');
+    videoTag.src = videoUrl;
+    videoTag.controls = true;
+    videoTag.style.width = '100%';
+    videoTag.style.height = '100%';
+
+    videoElement.appendChild(videoTag);
+    workspace.appendChild(videoElement);
+    makeDraggable(videoElement);
+    makeResizable(videoElement);
+    generateCode();
+});
+
+// Add Audio Element
+document.getElementById('add-audio').addEventListener('click', () => {
+    const audioUrl = prompt('Enter Audio URL (MP3, OGG, etc.):');
+    if (!audioUrl) return;
+
+    const audioElement = document.createElement('div');
+    audioElement.className = 'element';
+    audioElement.dataset.type = 'audio';
+    audioElement.dataset.src = audioUrl;
+    audioElement.style.left = '80px';
+    audioElement.style.top = '80px';
+    audioElement.style.width = '200px';
+    audioElement.style.height = '50px';
+    const audioTag = document.createElement('audio');
+    audioTag.src = audioUrl;
+    audioTag.controls = true;
+    audioTag.style.width = '100%';
+
+    audioElement.appendChild(audioTag);
+    workspace.appendChild(audioElement);
+    makeDraggable(audioElement);
+    generateCode();
+});
+
+
 // Add Line
 document.getElementById('add-line').addEventListener('click', () => {
     const line = document.createElement('div');
     line.className = 'element';
     line.dataset.type = 'line';
-    line.style.left = '50px';
-    line.style.top = '40px';
-    line.style.width = '100px';
-    line.style.height = '2px';
-    line.style.backgroundColor = 'black';
-    line.style.border = 'none';
+    line.style.left = '100px';
+    line.style.top = '130px';
+    line.style.width = '150px';
+    line.style.height = '5px';
+    line.style.backgroundColor = 'rgb(134, 0, 164)'; // Default purple color
     line.style.position = 'absolute';
     line.style.transform = 'rotatae(0deg)';
 
@@ -418,12 +383,12 @@ document.getElementById('add-rectangle').addEventListener('click', () => {
     const rect = document.createElement('div');
     rect.className = 'element';
     rect.dataset.type = 'rectangle';
-    rect.style.left = '50px';
+    rect.style.left = '150px';
     rect.style.top = '50px';
     rect.style.width = '100px';
     rect.style.height = '100px';
     rect.style.backgroundColor = 'gray'; // Default gray color
-    rect.style.border = 'none'; // Default border
+    rect.style.border = 'none';  
     rect.style.position = 'absolute';
     rect.style.transform = 'rotatae(0deg)';
 
@@ -433,17 +398,37 @@ document.getElementById('add-rectangle').addEventListener('click', () => {
     generateCode();
 });
 
+// Add Triangle
+document.getElementById('add-triangle').addEventListener('click', () => {
+    const tria = document.createElement('div');
+    tria.className = 'element';
+    tria.dataset.type = 'triangle';
+    tria.style.left = '150px';
+    tria.style.top = '50px';
+    tria.style.width = '100px';
+    tria.style.height = '100px';
+    tria.style.backgroundColor = 'green'; // Default green color
+    tria.style.clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)'; // Triangle shape
+    tria.style.position = 'absolute';
+    tria.style.transform = 'rotatae(0deg)';
+
+    workspace.appendChild(tria);
+    makeDraggable(tria);
+    makeResizable(tria);
+    generateCode();
+});
+
 // Add Circle
 document.getElementById('add-circle').addEventListener('click', () => {
     const circle = document.createElement('div');
     circle.className = 'element';
     circle.dataset.type = 'circle';
-    circle.style.left = '50px';
+    circle.style.left = '150px';
     circle.style.top = '50px';
     circle.style.width = '100px';
     circle.style.height = '100px';
     circle.style.backgroundColor = '#e74c3c'; // Default red color
-    circle.style.border = 'none'; // Default border
+    circle.style.border = 'none'; 
     circle.style.position = 'absolute';
     circle.style.borderRadius = '50%'; // Circle shape
 
@@ -451,27 +436,6 @@ document.getElementById('add-circle').addEventListener('click', () => {
     makeDraggable(circle);
     makeResizable(circle);
     generateCode();
-});
-
-
-// Webpage BG Color
-document.getElementById('webpage-color').addEventListener('input', (e) => {
-    if (selectedElement) {
-        selectedElement.style.backgroundColor = e.target.value;
-        generateCode();
-    }
-});
-
-// Webpage BG Image
-document.addEventListener("DOMContentLoaded", function () {
-    const bodyImage = document.getElementById("webpage-image");
-
-    bodyImage.addEventListener("click", () => {
-        const backgroundImage = prompt("Enter Image URL:");
-        if (backgroundImage) {
-            selectedElement.style.backgroundImage = `url('${backgroundImage}')`;
-        }
-    });
 });
 
 
@@ -520,7 +484,6 @@ document.getElementById('change-color').addEventListener('click', () => {
         alert('Select Font');
     }
 });
-
 // Change Background Color
 document.getElementById('change-bg').addEventListener('click', () => {
     if (selectedElement) {
@@ -530,10 +493,10 @@ document.getElementById('change-bg').addEventListener('click', () => {
         );
         if (bgColor) {
             selectedElement.style.backgroundColor = bgColor;
-            generateCode(); // Ensure this function exists and updates your code output.
+            generateCode(); 
         }
     } else {
-        alert('No element selected. Click on an element to select it.');
+        alert('No element selected.');
     }
 });
 
@@ -544,19 +507,20 @@ const colorValue = document.getElementById('colorValue');
 colorPicker.addEventListener('input', () => {
     const selectedColor = colorPicker.value;
     colorValue.textContent = `Color: ${selectedColor}`;
-    // Update background color if an element is selected
+
     if (selectedElement) {
         selectedElement.style.backgroundColor = selectedColor;
         generateCode(); // Update code output dynamically
     }
 });
 
+
 // Bring Forward
 document.getElementById('bring-forward').addEventListener('click', () => {
     if (selectedElement) {
         const nextElement = selectedElement.nextElementSibling;
         if (nextElement) {
-            workspace.insertBefore(nextElement, selectedElement); // Move the selected element after the next sibling
+            workspace.insertBefore(nextElement, selectedElement);
         }
         generateCode();
     } else {
@@ -569,7 +533,7 @@ document.getElementById('bring-backward').addEventListener('click', () => {
     if (selectedElement) {
         const prevElement = selectedElement.previousElementSibling;
         if (prevElement) {
-            workspace.insertBefore(selectedElement, prevElement); // Move the selected element before the previous sibling
+            workspace.insertBefore(selectedElement, prevElement); 
         }
         generateCode();
     } else {
@@ -577,67 +541,35 @@ document.getElementById('bring-backward').addEventListener('click', () => {
     }
 });
 
-// Add Triangle
-document.getElementById('add-triangle').addEventListener('click', () => {
-    const tria = document.createElement('div');
-    tria.className = 'element';
-    tria.dataset.type = 'triangle';
-    tria.style.left = '50px';
-    tria.style.top = '50px';
-    tria.style.position = 'absolute';
-    tria.style.width = '0';
-    tria.style.height = '0';
-    tria.style.borderLeft = '50px solid transparent';
-    tria.style.borderRight = '50px solid transparent';
-    tria.style.borderBottom = '100px solid green'; // Triangle color
-    tria.style.transform = 'rotatae(0deg)';
-
-    workspace.appendChild(tria);
-    makeDraggable(tria);
-    // Make triangle resizable by adjusting its border sizes
-    makeResizableCustom(tria);
-    generateCode();
-});
-// Custom Resizable Function for Triangle
-function makeResizableCustom(triangle) {
-    const resizer = document.createElement('div');
-    resizer.style.width = '10px';
-    resizer.style.height = '10px';
-    resizer.style.background = 'blue';
-    resizer.style.position = 'absolute';
-    resizer.style.right = '-5px';
-    resizer.style.bottom = '-5px';
-    resizer.style.cursor = 'se-resize';
-    triangle.appendChild(resizer);
-
-    resizer.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        const startX = e.clientX;
-        const startY = e.clientY;
-        const initialBorderBottom = parseInt(triangle.style.borderBottom.match(/\d+/)[0], 10);
-        const initialBorderLeft = parseInt(triangle.style.borderLeft.match(/\d+/)[0], 10);
-        function onMouseMove(e) {
-            const deltaX = e.clientX - startX;
-            const deltaY = e.clientY - startY;
-            // Update border sizes to resize the triangle
-            triangle.style.borderLeft = `${initialBorderLeft + deltaX}px solid transparent`;
-            triangle.style.borderRight = `${initialBorderLeft + deltaX}px solid transparent`;
-            triangle.style.borderBottom = `${initialBorderBottom + deltaY}px solid green`;
-            generateCode();
-        }
-        function onMouseUp() {
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup', onMouseUp);
-        }
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
-    });
-}
-
 // Copy Button Functionality
 copyBtn.addEventListener('click', () => {
-    const code = output.textContent;
+    const code = output.value;
     navigator.clipboard.writeText(code).then(() => {
     }).catch(err => {
     });
+});
+
+// Update button for output text-area
+document.getElementById('update-code').addEventListener('click', () => {
+    const outputText = document.getElementById('output').value;
+    // Extract CSS and HTML separately
+    const styleMatch = outputText.match(/<style>([\s\S]*?)<\/style>/);
+    const extractedCSS = styleMatch ? styleMatch[1] : '';
+    const extractedHTML = outputText.replace(/<style>[\s\S]*?<\/style>/, '').trim();
+
+    // Update workspace with new HTML
+    const workspace = document.getElementById('workspace');
+    workspace.innerHTML = extractedHTML;
+
+    // Apply new styles dynamically
+    let styleTag = document.getElementById('dynamic-style');
+    if (!styleTag) {
+        styleTag = document.createElement('style');
+        styleTag.id = 'dynamic-style';
+        document.head.appendChild(styleTag);
+    }
+    styleTag.innerHTML = extractedCSS;
+    
+
+    console.log('Workspace updated successfully!');
 });
